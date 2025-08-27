@@ -27,7 +27,7 @@ class Sup < Formula
         print "Hello, SUP!"
       bye
     EOS
-    system bin/"sup", "transpile", "--emit", "python", testpath/"hello.sup"
+    system bin/"sup", "transpile", "--emit", "python", "--out", testpath/"hello.py", testpath/"hello.sup"
     assert_match "Hello, SUP!", shell_output("python3 #{testpath}/hello.py")
   end
 end
