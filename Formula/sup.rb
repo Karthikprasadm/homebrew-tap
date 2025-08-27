@@ -17,9 +17,8 @@ class Sup < Formula
   depends_on "python@3.12"
 
   def install
-    cd "sup-lang" do
-      virtualenv_install_with_resources
-    end
+    venv = virtualenv_create(libexec, "python3.12")
+    venv.pip_install_and_link buildpath/"sup-lang"
   end
 
   test do
@@ -31,4 +30,3 @@ class Sup < Formula
     assert_match "Hello, SUP!", shell_output("#{bin}/sup #{testpath}/hello.sup")
   end
 end
-
