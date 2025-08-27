@@ -13,16 +13,27 @@ jobs:
       - name: Homebrew update
         run: brew update
 
+      - name: Tap repository
+        run: |
+          brew untap "$GITHUB_REPOSITORY" || true
+          brew tap "$GITHUB_REPOSITORY"
+
       - name: Brew style/audit (non-blocking)
         run: |
           brew style Formula/sup.rb || true
-          brew audit --new --strict sup || true
+          TAP_USER="${GITHUB_REPOSITORY%/*}"
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          TAP_NAME="${REPO_NAME#homebrew-}"
+          brew audit --new --strict "$TAP_USER/$TAP_NAME/sup" || true
 
       - name: Install SUP from tap
         run: |
-          brew untap "${{ github.repository }}" || true
-          brew tap "${{ github.repository }}"
-          brew install --formula "${{ github.repository }}/sup"
+          brew untap "$GITHUB_REPOSITORY" || true
+          brew tap "$GITHUB_REPOSITORY"
+          TAP_USER="${GITHUB_REPOSITORY%/*}"
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          TAP_NAME="${REPO_NAME#homebrew-}"
+          brew install --formula "$TAP_USER/$TAP_NAME/sup"
           brew list --versions sup
 
       - name: Smoke test

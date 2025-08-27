@@ -10,7 +10,8 @@ class Sup < Formula
   license "MIT"
 
   livecheck do
-    url :github_latest
+    url :stable
+    strategy :github_latest
   end
 
   depends_on "python@3.12"
@@ -30,5 +31,4 @@ class Sup < Formula
     assert_match "Hello, SUP!", shell_output("#{bin}/sup #{testpath}/hello.sup")
   end
 end
-
 
