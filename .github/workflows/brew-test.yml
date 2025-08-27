@@ -43,6 +43,7 @@ jobs:
             print "Hello, SUP!"
           bye
           EOF
-          sup hello.sup | grep "Hello, SUP!"
+          sup transpile --emit python hello.sup > hello.py
+          python3 hello.py | grep "Hello, SUP!"
 
 
